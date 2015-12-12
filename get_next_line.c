@@ -6,7 +6,7 @@
 /*   By: nbouteme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/25 13:26:12 by nbouteme          #+#    #+#             */
-/*   Updated: 2015/11/26 19:05:07 by nbouteme         ###   ########.fr       */
+/*   Updated: 2015/12/12 14:15:29 by nbouteme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,29 @@ static int			read_next_line(t_file_ptr *file, char **line)
 	return (1);
 }
 
+void				remove_file(t_list **head, t_list *l)
+{
+	t_list		*tmp;
+	t_file_ptr	*f;
+
+	if (*head != l)
+		while ((*head)->next != l)
+			*head = (*head)->next;
+	else
+		*head = l->next;
+	if (*head)
+		(*head)->next = l->next;
+	f = l->content;
+	free(f->buf);
+	free(f);
+	free(l);
+}
+
 int					get_next_line(int const fd, char **line)
 {
 	static t_list	*files = 0;
 	t_list			*l;
+	int				e;
 
 	if (!line)
 		return (-1);
@@ -68,8 +87,10 @@ int					get_next_line(int const fd, char **line)
 		l = l->next;
 	if (!l)
 	{
-		l = ft_lstnew(new_file(fd), sizeof(t_file_ptr));
+		l = ft_lstnewown(new_file(fd), sizeof(t_file_ptr));
 		ft_lstadd(&files, l);
 	}
-	return (read_next_line(l->content, line));
+	if ((e = read_next_line(l->content, line)) != 1)
+		remove_file(&files, l);
+	return (e);
 }
