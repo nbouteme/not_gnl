@@ -6,7 +6,7 @@
 /*   By: nbouteme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/25 13:27:47 by nbouteme          #+#    #+#             */
-/*   Updated: 2015/11/26 19:03:14 by nbouteme         ###   ########.fr       */
+/*   Updated: 2016/01/13 18:34:23 by nbouteme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFF_SIZE
-#  define BUFF_SIZE 1
+#  define BUFF_SIZE 42
 # endif
 
 int				get_next_line(int const fd, char **line);
