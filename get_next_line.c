@@ -12,7 +12,7 @@
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "libft/libft.h"
+#include "libft/includes/libft/libft.h"
 #include "get_next_line.h"
 
 static t_file_ptr	*new_file(int fd)
@@ -55,14 +55,19 @@ static int			read_next_line(t_file_ptr *file, char **line)
 void				remove_file(t_list **head, t_list *l)
 {
 	t_file_ptr	*f;
+	t_list		*p;
 
+	p = 0;
 	if (*head != l)
-		while ((*head)->next != l)
+	{
+		p = *head;
+		while (p->next != l)
 			*head = (*head)->next;
+	}
 	else
 		*head = l->next;
-	if (*head)
-		(*head)->next = l->next;
+	if (p)
+		p->next = l->next;
 	f = l->content;
 	free(f->buf);
 	free(f);
